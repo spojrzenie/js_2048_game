@@ -10,6 +10,10 @@ Welcome to the addictive world of 2048! Test your skills and strategic thinking 
 
 2048 is a popular tile-matching puzzle game where your goal is to combine tiles to reach the coveted 2048 tile. It's a challenging and enjoyable game that will keep you engaged for hours.
 
+## Motivation
+
+This project was created as a part of exercises for Mate Academy, with the aim of honing JavaScript, HTML, and CSS skills. The goal was to recreate the 2048 game and learn more about game development and web technologies.
+
 ## Features
 
 - **Random Tile Generation:** New tiles with values of 2 or 4 are generated at random positions on the board.
