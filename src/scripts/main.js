@@ -12,6 +12,57 @@ const gameBoard = [
 
 const startButton = document.getElementById('startGame');
 
+const touchStartPos = {
+  x: 0, y: 0,
+};
+
+const touchEndPos = {
+  x: 0, y: 0,
+};
+
+function handleTouchStart(e) {
+  touchStartPos.x = e.touches[0].clientX;
+  touchStartPos.y = e.touches[0].clientY;
+  e.preventDefault();
+}
+
+function handleTouchEnd(e) {
+  touchEndPos.x = e.changedTouches[0].clientX;
+  touchEndPos.y = e.changedTouches[0].clientY;
+  handleSwipeGesture();
+  e.preventDefault();
+}
+
+function handleTouchMove(e) {
+  e.preventDefault();
+}
+
+function handleSwipeGesture() {
+  const dx = touchEndPos.x - touchStartPos.x;
+  const dy = touchEndPos.y - touchStartPos.y;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+
+  if (Math.max(absDx, absDy) > 50) {
+    if (absDx > absDy) {
+      if (dx > 0) {
+        moveRight();
+      } else {
+        moveLeft();
+      }
+    } else {
+      if (dy > 0) {
+        moveDown();
+      } else {
+        moveUp();
+      }
+    }
+    showBoardToUser(gameBoard);
+    isGameOver();
+    isWin();
+  }
+}
+
 function countScore(sum) {
   score += sum;
 
@@ -48,17 +99,21 @@ function gameOff() {
   showBoardToUser(gameBoard);
 
   const infoStart = document.querySelector('.message-start');
+
   infoStart.classList.remove('hidden');
 
   const infoLose = document.querySelector('.message-lose');
+
   infoLose.classList.add('hidden');
 
   const infoWin = document.querySelector('.message-win');
+
   infoWin.classList.add('hidden');
 
   score = 0;
 
   const showScore = document.querySelector('.game-score');
+
   showScore.textContent = score;
 }
 
@@ -405,7 +460,6 @@ document.addEventListener('keydown', keyEvent => {
         break;
 
       default:
-
     }
 
     showBoardToUser(gameBoard);
@@ -413,3 +467,23 @@ document.addEventListener('keydown', keyEvent => {
     isWin();
   }
 });
+
+const gameContainer = document.querySelector('.game-field');
+
+gameContainer.addEventListener(
+  'touchstart',
+  handleTouchStart,
+  { passive: false }
+);
+
+gameContainer.addEventListener(
+  'touchmove',
+  handleTouchMove,
+  { passive: false }
+);
+
+gameContainer.addEventListener(
+  'touchend',
+  handleTouchEnd,
+  { passive: false }
+);
